@@ -1,23 +1,690 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Home</title>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <!--
-      Need a visual blank slate?
-      Remove all code in `styles.css`!
-    -->
-    <link rel="stylesheet" href="styles.css" />
-    <script type="module" src="script.js"></script>
-  </head>
-  <body>
-    <nav>
-      <a href="/" aria-current="page">Home</a>
-      <a href="/page2.html">Other page</a>
-    </nav>
-    <main>
-      <h1>Home page</h1>
-    </main>
-  </body>
-</html>
+
+  <style>
+    /* 기본 스타일 */
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      line-height: 1.7;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #eef2f3 0%, #e0e8e9 100%); /* 부드러운 그라데이션 배경 */
+      color: #333;
+    }
+    header, section, footer {
+      max-width: 1000px; /* 넓어진 최대 너비 */
+      margin: 25px auto;
+      padding: 30px 30px; /* 패딩 증가 */
+      background: #ffffff; /* 흰색 배경 */
+      border-radius: 12px; /* 더 둥근 모서리 */
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 */
+      transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    }
+    header:hover, section:hover, footer:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    }
+    h1, h2, h3 {
+      color: #004aad; /* 브랜드 색상 */
+      margin-bottom: 20px;
+      font-weight: 500;
+    }
+    h1 { font-size: 2.5em; }
+    h2 { font-size: 1.8em; border-bottom: 2px solid #0070f3; padding-bottom: 10px; margin-bottom: 30px; }
+    h3 { font-size: 1.4em; color: #005bb5; margin-top: 25px; }
+    ul, ol { padding-left: 25px; margin-bottom: 20px; }
+    li { margin-bottom: 10px; }
+    table {
+      width: 100%;
+      border-collapse: separate; /* 셀 간격 유지 */
+      border-spacing: 0 10px; /* 행 간 간격 */
+      margin: 30px 0;
+    }
+    th, td {
+      border: none; /* 셀 테두리 제거 */
+      padding: 15px;
+      text-align: center;
+    }
+    th {
+      background: linear-gradient(45deg, #0070f3, #004aad); /* 그라데이션 헤더 */
+      color: #fff;
+      font-weight: 500;
+      border-radius: 8px 8px 0 0; /* 상단 모서리만 둥글게 */
+    }
+    tr:nth-child(even) td {
+      background-color: #f9fafd; /* 짝수 행 배경색 */
+    }
+    tr:last-child td {
+      border-bottom-left-radius: 8px; /* 마지막 행 왼쪽 모서리 */
+      border-bottom-right-radius: 8px; /* 마지막 행 오른쪽 모서리 */
+    }
+    td:first-child {
+      text-align: left; /* 첫 번째 셀 왼쪽 정렬 */
+      border-top-left-radius: 8px;
+      border-bottom-left-radius: 8px;
+    }
+    td:last-child {
+      border-top-right-radius: 8px;
+      border-bottom-right-radius: 8px;
+    }
+    a {
+      color: #0070f3;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    a:hover {
+      text-decoration: underline;
+      color: #005bb5;
+    }
+    strong {
+      font-weight: 500;
+    }
+
+    /* CTA 버튼 */
+    .btn-cta {
+      display: inline-block;
+      padding: 15px 30px;
+      background: linear-gradient(45deg, #0070f3, #005bb5); /* 부드러운 그라데이션 */
+      color: #fff;
+      font-weight: 700;
+      border-radius: 30px;
+      box-shadow: 0 6px 15px rgba(0, 112, 243, 0.3);
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      text-align: center;
+      margin-top: 20px;
+      cursor: pointer;
+      border: none;
+      font-size: 1.1em;
+    }
+    .btn-cta:hover {
+      background: linear-gradient(45deg, #005bb5, #004aad);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0, 112, 243, 0.4);
+    }
+    /* 내부 링크용 앵커 스타일 */
+    .anchor {
+      display: block;
+      position: relative;
+      top: -120px; /* 헤더 및 네비 높이 감안 오프셋 */
+      visibility: hidden;
+    }
+
+    /* 그래프 시뮬레이션 */
+    .graph-placeholder {
+      width: 100%;
+      height: 250px;
+      background-color: #eef2f3;
+      border-radius: 8px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #777;
+      font-style: italic;
+      margin: 25px 0;
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
+    }
+
+    /* 입력란 스타일 */
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: #004aad;
+    }
+    .form-group input[type="text"],
+    .form-group input[type="tel"],
+    .form-group input[type="email"],
+    .form-group input[type="number"],
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 12px 15px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      box-sizing: border-box; /* 패딩 포함 박스 크기 */
+      font-size: 1em;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: #0070f3;
+      box-shadow: 0 0 0 3px rgba(0, 112, 243, 0.2);
+      outline: none;
+    }
+    .form-group textarea {
+      resize: vertical; /* 세로 크기 조절만 허용 */
+    }
+    .required-star {
+      color: #e53e3e; /* 빨간색 별 */
+      margin-left: 4px;
+    }
+
+    /* 반응형 */
+    @media(max-width: 768px) {
+      h1 { font-size: 2em; }
+      h2 { font-size: 1.5em; }
+      header, section, footer { margin: 15px auto; padding: 20px; }
+      .btn-cta { width: 100%; padding: 15px 0; font-size: 1em; }
+      th, td { padding: 10px; }
+      .anchor { top: -90px; } /* 모바일에서 오프셋 줄임 */
+    }
+    @media(max-width: 480px) {
+      h1 { font-size: 1.8em; }
+      h2 { font-size: 1.3em; }
+      .btn-cta { font-size: 0.95em; }
+      .form-group input, .form-group select, .form-group textarea { padding: 10px 12px; }
+    }
+  </style>
+
+  <!-- Schema.org LocalBusiness 마크업(JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "그랜저 리스 & 장기렌트 전문 비교 플랫폼",
+    "url": "https://www.yourdomain.com/grandeur-lease-rental",
+    "logo": "https://www.yourdomain.com/logo.png",
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+82-10-1234-5678",
+      "contactType": "Customer Service",
+      "areaServed": "KR",
+      "availableLanguage": ["ko"]
+    },
+    "areaServed": {
+      "@type": "Country",
+      "name": "대한민국"
+    },
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": {
+        "@type": "EntryPoint",
+        "urlTemplate": "https://www.yourdomain.com/grandeur-lease-rental?query={search_term_string}"
+      },
+      "query-input": "required name=search_term_string"
+    },
+    "sameAs": [
+      "https://www.youtube.com/channel/yourchannel",
+      "https://www.facebook.com/yourpage",
+      "https://twitter.com/youraccount"
+    ],
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Hyundai Grandeur Leasing & Rental Services",
+      "itemListElement": [
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Car",
+            "name": "Hyundai Grandeur GN7",
+            "vehicleModel": "GN7",
+            "manufacturer": "Hyundai"
+          },
+          "priceCurrency": "KRW",
+          "description": "2026년형 현대 그랜저 GN7 자동차 리스 및 장기렌트 상품 제공. 다양한 트림, 옵션, 계약 조건 맞춤 견적.",
+          "category": "Automotive Leasing and Rental"
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Car",
+            "name": "Hyundai Grandeur IG",
+            "vehicleModel": "IG",
+            "manufacturer": "Hyundai"
+          },
+          "priceCurrency": "KRW",
+          "description": "인기 있는 현대 그랜저 IG 모델의 합리적인 리스 및 장기렌트 상품.",
+          "category": "Automotive Leasing and Rental"
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Car",
+            "name": "Hyundai Grandeur HG",
+            "vehicleModel": "HG",
+            "manufacturer": "Hyundai"
+          },
+          "priceCurrency": "KRW",
+          "description": "가성비 높은 현대 그랜저 HG 모델의 장기렌트 및 리스 옵션.",
+          "category": "Automotive Leasing and Rental"
+        }
+      ]
+    }
+  }
+  </script>
+</head>
+
+<body>
+  <header>
+    <h1>✨ 2026년, 당신의 선택은? 그랜저 유지비 & 자동차리스 vs 장기렌트카 완벽 분석 ✨</h1>
+    <p><strong>현명한 자동차 오너를 위한 필수 가이드</strong>: 2026년 최신 정보 기반, 그랜저 모델별 유지비, 자동차리스와 장기렌트카의 모든 것. AI 기반 최적의 선택 전략을 확인하세요!</p>
+    <button class="btn-cta" onclick="scrollToContact()">지금 바로 맞춤 견적 상담 받기!</button>
+  </header>
+
+  <nav aria-label="페이지 내 주요 섹션 이동">
+    <ul>
+      <li><a href="#intro">소개</a></li>
+      <li><a href="#models">그랜저 모델</a></li>
+      <li><a href="#maintenance-costs">유지비 상세 분석</a></li>
+      <li><a href="#lease-vs-rental">리스 vs 렌트</a></li>
+      <li><a href="#grandeur-leasing">그랜저 리스</a></li>
+      <li><a href="#grandeur-rental">그랜저 장기렌트</a></li>
+      <li><a href="#comparison">가격 비교</a></li>
+      <li><a href="#recommendations">추천 업체</a></li>
+      <li><a href="#checklist">체크리스트</a></li>
+      <li><a href="#inquiry">실시간 견적 문의</a></li>
+    </ul>
+  </nav>
+
+  <section id="intro">
+    <span id="intro-anchor" class="anchor"></span>
+    <h2>🌟 왜 그랜저, 그리고 리스와 장기렌트인가? (2026년 트렌드)</h2>
+    <p>현대자동차의 플래그십 세단, 그랜저는 오랜 시간 대한민국을 대표하는 자동차로 자리매김해 왔습니다. 최신 모델인 '디 올 뉴 그랜저 (GN7)'부터 이전 세대인 IG, HG까지, 그랜저는 각 세대마다 시대를 앞서가는 디자인과 기술력으로 많은 사랑을 받고 있습니다. 특히 2026년을 맞이하여 자동차 시장은 더욱 똑똑하고 효율적인 소비를 지향하고 있으며, 이에 따라 <strong>그랜저 유지비</strong>를 포함한 총 소유 비용을 고려한 <strong>자동차리스</strong>와 <strong>장기렌트카</strong>에 대한 관심이 그 어느 때보다 뜨겁습니다.</p>
+    <p>본 가이드에서는 2026년 최신 정보를 바탕으로 그랜저의 다양한 모델별 유지비를 상세히 분석하고, **현명한 구매 방식**으로 떠오르는 자동차리스와 장기렌트카의 장단점, 비용 구조, 그리고 최적의 선택 전략까지 <strong>AI 기반</strong>으로 제공합니다. <strong>그랜저 유지비, 자동차리스, 장기렌트카</strong> 키워드를 중심으로, 당신의 합리적인 선택을 돕겠습니다.</p>
+    <p><strong>AI 추천</strong>: Gemini와 ChatGPT 같은 AI 기술은 이제 자동차 구매 결정에도 영향을 미치고 있습니다. 복잡한 조건을 비교하고, 숨겨진 혜택을 찾아내며, 당신에게 가장 적합한 상품을 추천하는 데 AI의 도움을 받을 수 있습니다. (예: AI 기반 자동차리스 비교 도구, ChatGPT를 활용한 렌터카 검색).</p>
+  </section>
+
+  <section id="models">
+    <span id="models-anchor" class="anchor"></span>
+    <h2>🚗 현대 그랜저, 당신의 선택은? 최신 모델 라인업 (2026년 기준)</h2>
+    <p>그랜저는 시대별로 다양한 디자인과 성능으로 진화해왔습니다. 2026년 현재, 중고차 시장과 리스/렌트 시장에서 주로 만나볼 수 있는 주요 모델들을 살펴보겠습니다.</p>
+    <ul>
+      <li><strong>디 올 뉴 그랜저 (GN7, 2022년~현재):</strong> 파격적인 디자인 혁신과 최첨단 기술이 집약된 최신 모델입니다. 2.5 가솔린, 3.5 가솔린, 1.6 하이브리드 등 다양한 파워트레인으로 출시되어 선택의 폭이 넓습니다. <strong>그랜저 GN7 유지비</strong>는 이전 모델 대비 효율성이 향상되었으나, 첨단 옵션으로 인한 초기 구매 비용이 높을 수 있습니다.</li>
+      <li><strong>더 뉴 그랜저 (IG 페이스리프트, 2019년~2022년):</strong> '디 올 뉴 그랜저' 이전 세대로, 세련된 디자인과 안정적인 성능으로 여전히 많은 인기를 누리고 있습니다. 2.5 가솔린, 3.0 LPi, 2.4 하이브리드 모델이 주를 이루며, <strong>그랜저 IG 유지비</strong>는 비교적 안정적인 편입니다.</li>
+      <li><strong>그랜저 IG (2016년~2019년):</strong> 6세대 그랜저로, '각그랜저' 이미지를 벗고 유려한 디자인으로 변화를 시도했습니다. 2.4 가솔린, 3.0 가솔린, 3.3 가솔린, 2.2 디젤, 3.0 LPi 등 다양한 엔진 라인업을 갖췄습니다. <strong>그랜저 IG LPI 유지비</strong>는 연료비 측면에서 장점이 있습니다.</li>
+      <li><strong>그랜저 HG (2011년~2016년):</strong> '국민 세단'이라는 별명을 얻으며 큰 성공을 거둔 모델입니다. 2.4 가솔린, 3.0 가솔린, 3.5 가솔린, 2.2 디젤, 2.4 LPi 등 엔진 선택지가 다양했습니다. <strong>그랜저 HG 유지비</strong>는 상대적으로 저렴한 편으로 알려져 있습니다.</li>
+    </ul>
+    <p>2026년 기준으로도 디 올 뉴 그랜저(GN7)의 인기가 지속되고 있으며, 중고차 시장에서는 그랜저 IG와 더 뉴 그랜저 모델이 합리적인 가격으로 주목받고 있습니다. 이는 곧 **그랜저 리스**나 **장기렌트카** 계약 시에도 높은 잔존가치를 기대할 수 있음을 의미합니다.</p>
+  </section>
+
+  <section id="maintenance-costs">
+    <span id="maintenance-costs-anchor" class="anchor"></span>
+    <h2>💰 그랜저 유지비 총정리 (2026년 기준 예상)</h2>
+    <p>그랜저를 소유하거나 리스/렌트하여 이용할 때 발생하는 총 유지비는 구매 결정에 매우 중요한 요소입니다. 2026년 기준, 주요 항목별 예상 유지비를 상세하게 분석해 드립니다. (※아래 수치는 일반적인 운전 패턴 및 조건 하의 예상치이며, 실제 비용은 개인별 상황에 따라 달라질 수 있습니다.)</p>
+
+    <h3>1. 자동차세 (2026년 기준)</h3>
+    <p>자동차세는 배기량과 차종, 그리고 연식에 따라 부과됩니다. 일반적으로 그랜저의 배기량(2.5L, 3.5L 등)을 고려하면, 연간 약 65만 원 ~ 80만 원 내외가 예상됩니다. 하이브리드 모델의 경우, 친환경차 감면 혜택 적용 여부에 따라 다소 차이가 있을 수 있습니다.</p>
+    <div class="graph-placeholder">
+      <span>그래프: 그랜저 모델별 연간 자동차세 비교 (예상치)</span>
+      <p><em>(실제 그래프는 시각적인 요소를 통해 각 모델의 배기량 및 연식에 따른 예상 자동차세액 차이를 보여줍니다. 예를 들어, GN7 2.5 가솔린 vs IG 3.0 LPi vs HG 2.4 가솔린 등으로 비교할 수 있습니다.)</em></p>
+    </div>
+
+    <h3>2. 보험료 (2026년 기준)</h3>
+    <p>자동차 보험료는 나이, 운전 경력, 사고 이력, 차량 가액, 특약 가입 여부 등 다양한 요인에 따라 결정됩니다. 30대 초반, 무사고 경력의 운전자가 그랜저(준대형 세단)를 가입할 경우, 연간 약 110만 원 ~ 150만 원 수준으로 예상할 수 있습니다. 개인 보험으로 처리되는 리스 차량과 달리, 장기렌트카는 렌터카 보험이 포함되어 있어 개인 보험료 할증과는 무관합니다.</p>
+
+    <h3>3. 유류비 (연비 및 주행 거리에 따른 계산)</h3>
+    <p>그랜저 모델별, 파워트레인별 연비 차이가 유류비에 큰 영향을 미칩니다. (15,000km 주행 기준, 휘발유 리터당 1,700원 가정)</p>
+    <table>
+      <thead>
+        <tr>
+          <th>모델</th>
+          <th>연비 (복합)</th>
+          <th>연간 유류비 (예상)</th>
+          <th>비고</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>디 올 뉴 그랜저 (2.5 가솔린)</td>
+          <td>약 10.4 km/ℓ</td>
+          <td>약 2,450,000원</td>
+          <td>준수한 연비</td>
+        </tr>
+        <tr>
+          <td>더 뉴 그랜저 (IG 3.0 LPG)</td>
+          <td>약 5.0 ~ 5.5 km/ℓ</td>
+          <td>약 1,800,000원</td>
+          <td>LPG 가격 고려 시 가솔린 대비 저렴 (가솔린 모델과 단순 비교 시 약 180만 원 vs 140만 원 예상)</td>
+        </tr>
+        <tr>
+          <td>그랜저 HG (2.4 가솔린)</td>
+          <td>약 11.8 km/ℓ (당시 기준)</td>
+          <td>약 2,100,000원 (현재 유가 기준 환산)</td>
+          <td>상대적으로 높은 연비</td>
+        </tr>
+        <tr>
+          <td>디 올 뉴 그랜저 하이브리드</td>
+          <td>약 16.2 km/ℓ</td>
+          <td>약 1,600,000원</td>
+          <td>가장 경제적인 유류비</td>
+        </tr>
+      </tbody>
+    </table>
+    <p><strong>AI 인사이트:</strong> AI는 실시간 유가 정보와 개인의 예상 주행 거리를 기반으로 가장 정확한 연간 유류비를 계산해 줄 수 있습니다. 또한, 연료 효율이 좋은 하이브리드 모델이나 LPG 모델이 장기적으로 <strong>그랜저 유지비</strong> 절감에 유리하다는 분석을 제공합니다.</p>
+
+    <h3>4. 정비 및 소모품 비용</h3>
+    <p>차량 연식과 주행 거리에 따라 엔진오일, 타이어, 브레이크 패드 등 소모품 교체 및 정기 점검 비용이 발생합니다. 신차 또는 리스/렌트 초기에는 보증 수리로 비용 부담이 적지만, 연식이 오래될수록 비용이 증가합니다.</p>
+    <p><strong>그랜저 IG 3.0의 10개월간 유지비</strong> 중 정비비는 약 27만 원 수준으로, 보증 수리가 큰 도움이 되었다는 후기도 있습니다.</p>
+
+    <h3>5. 감가상각 (차량 가치 하락)</h3>
+    <p>차량 가격의 일정 비율만큼 시간이 지남에 따라 가치가 하락하는 것을 의미합니다. 초기 구매 비용과 총 유지비를 계산할 때 반드시 고려해야 할 부분입니다. 그랜저는 모델 및 상태에 따라 감가율이 상이하며, 최신 모델일수록 초기 감가폭이 클 수 있습니다.</p>
+
+    <h3>총 예상 유지비 (연간)</h3>
+    <p>위 항목들을 종합했을 때, 그랜저 모델 및 파워트레인에 따라 연간 예상 유지비는 대략 270만 원 ~ 500만 원 수준으로 볼 수 있습니다. <strong>디 올 뉴 그랜저 하이브리드</strong> 모델이 연비 측면에서 가장 경제적이며, <strong>그랜저 IG LPI</strong> 모델은 유류비 측면에서 장점이 있습니다.</p>
+    <p><strong>핵심 요약</strong>: <strong>그랜저 유지비</strong>는 모델, 엔진, 주행 거리, 보험 조건에 따라 크게 달라집니다. 장기렌트카는 이러한 다양한 유지비 항목이 월 대여료에 포함되어 있어 관리가 용이한 편입니다.</p>
+  </section>
+
+  <section id="lease-vs-rental">
+    <span id="lease-vs-rental-anchor" class="anchor"></span>
+    <h2>🚗🤔 자동차 리스 vs 장기렌트카: 당신에게 맞는 선택은?</h2>
+    <p><strong>자동차리스</strong>와 <strong>장기렌트카</strong>는 목돈 없이 신차를 이용할 수 있다는 공통점이 있지만, 근본적인 차이가 있습니다. 현명한 선택을 위해 두 제도의 차이점과 각 장단점을 비교 분석합니다.</p>
+
+    <h3>1. 명의와 번호판</h3>
+    <ul>
+      <li><strong>자동차리스:</strong> 차량 명의는 금융사(리스사)에 있고, 이용자는 리스료를 납부합니다. 번호판은 일반 자가용과 동일한 '일반 번호판'을 사용합니다.</li>
+      <li><strong>장기렌트카:</strong> 차량 명의는 렌터카 회사에 있으며, 이용자는 월 대여료를 납부합니다. 번호판은 '하', '허', '호'가 포함된 렌터카 전용 번호판을 사용합니다.</li>
+    </ul>
+
+    <h3>2. 보험 및 세금 처리</h3>
+    <ul>
+      <li><strong>자동차리스:</strong> 자동차 보험은 이용자가 직접 가입하며, 자동차세 및 각종 세금도 이용자 명의로 납부합니다. 사고 시 개인 보험으로 처리되어 보험료 할증 가능성이 있습니다.</li>
+      <li><strong>장기렌트카:</strong> 보험료와 자동차세, 취등록세 등 모든 비용이 월 대여료에 포함되어 있습니다. 사고 발생 시에도 렌터카 회사 명의로 보험 처리가 되어 개인 보험료 할증과는 무관합니다.</li>
+    </ul>
+
+    <h3>3. 계약 조건 및 유연성</h3>
+    <ul>
+      <li><strong>자동차리스:</strong> 계약 기간(주로 24~60개월) 동안 중도 해지 시 위약금이 발생할 수 있으며, 약정 주행거리 제한이 있습니다.</li>
+      <li><strong>장기렌트카:</strong> 역시 계약 기간 및 주행거리 제한이 있지만, 리스에 비해 상대적으로 유연한 조건으로 계약 및 관리가 가능한 경우가 많습니다.</li>
+    </ul>
+
+    <h3>4. 금융 상품 vs 렌탈 상품</h3>
+    <ul>
+      <li><strong>자동차리스 (금융리스):</strong> 계약 종료 후 차량 인수 시 명의 이전이 가능하며, 감가상각 잔존가치를 제외한 금액을 납부하는 방식입니다. 신용 평가에 영향을 줄 수 있습니다.</li>
+      <li><strong>장기렌트카 (렌탈):</strong> 계약 기간 동안 차량을 '빌려' 타는 개념으로, 계약 종료 시 반납이 일반적입니다. (인수 옵션도 가능) 신용 점수에 직접적인 영향을 미치지 않는다는 장점이 있습니다.</li>
+    </ul>
+
+    <h3>5. 누가 선택해야 할까?</h3>
+    <ul>
+      <li><strong>자동차리스 추천 대상:</strong></li>
+      <ul>
+        <li>일반 승용차 번호판을 선호하며, 금융 상품으로 자산 관리를 하고 싶은 개인/법인 사업자</li>
+        <li>차량 인수 후 장기 보유 계획이 있는 경우</li>
+        <li>신용 관리에 자신 있고, 개인 보험 할인 혜택을 유지하고 싶은 운전자</li>
+        <li><strong>그랜저 리스</strong>를 통해 세금 혜택(법인/개인사업자)을 극대화하고 싶은 경우</li>
+      </ul>
+      <li><strong>장기렌트카 추천 대상:</strong></li>
+      <ul>
+        <li>초기 비용 부담 없이 신차를 이용하고 싶은 모든 운전자</li>
+        <li>정기적인 차량 교체를 선호하며, 차량 관리 부담을 줄이고 싶은 경우</li>
+        <li>사고 발생 시 개인 보험료 할증이 걱정되는 운전자</li>
+        <li>개인 신용도에 영향을 주지 않고 차량을 이용하고 싶은 경우</li>
+        <li><strong>그랜저 장기렌트</strong>를 통해 간편하고 합리적인 비용으로 이용하고 싶은 경우</li>
+      </ul>
+    </ul>
+    <p><strong>AI 분석:</strong> AI는 개인의 신용 상태, 소득 수준, 주행 패턴, 차량 이용 목적 등을 종합적으로 분석하여 리스와 장기렌트카 중 어떤 상품이 더 유리한지 객관적인 데이터를 기반으로 추천할 수 있습니다.</p>
+  </section>
+
+  <section id="grandeur-leasing">
+    <span id="grandeur-leasing-anchor" class="anchor"></span>
+    <h2>✨ 그랜저 자동차리스: 똑똑한 금융 상품 활용법 (2026)</h2>
+    <p><strong>그랜저 자동차리스</strong>는 월 납입금을 통해 원하는 그랜저 모델을 이용하고, 계약 종료 후 차량을 인수하거나 반납하는 금융 상품입니다. 법인 및 개인사업자에게는 세금 절감 효과라는 강력한 이점이 있습니다.</p>
+
+    <h3>1. 그랜저 리스의 장점</h3>
+    <ul>
+      <li><strong>세금 절감 효과 (법인/개인사업자):</strong> 리스료 전액을 비용 처리하여 법인세 또는 소득세 절감 효과를 얻을 수 있습니다.</li>
+      <li><strong>초기 비용 부담 완화:</strong> 차량 가격 전액이 아닌, 잔존가치를 제외한 금액에 대해 리스료가 산정되므로 월 납입금이 상대적으로 저렴할 수 있습니다.</li>
+      <li><strong>일반 번호판 사용:</strong> '하, 허, 호' 번호판 없이 일반 자가용처럼 이용 가능하여 차량 이용에 대한 만족도가 높습니다.</li>
+      <li><strong>금융 상품으로서의 이점:</strong> 신용 기록에 영향을 줄 수 있으며, 개인의 신용도에 따라 금리가 달라집니다.</li>
+      <li><strong>다양한 옵션 및 모델 선택:</strong> 최신 그랜저 GN7부터 이전 모델까지, 원하는 트림과 옵션을 선택하여 맞춤형 리스가 가능합니다.</li>
+    </ul>
+
+    <h3>2. 그랜저 리스 비용 구성</h3>
+    <ul>
+      <li><strong>월 리스료:</strong> 차량 가격, 리스 기간, 금리, 잔존가치, 선수금/보증금 비율에 따라 결정됩니다.</li>
+      <li><strong>선수금/보증금:</strong> 계약 시작 시 납부하는 금액으로, 선수금은 돌려받지 못하지만 월 리스료를 낮추는 효과가 있습니다. 보증금은 계약 종료 시 반환됩니다 (또는 차량 인수 시 차액 정산).</li>
+      <li><strong>금리:</strong> 금융사 및 개인의 신용도에 따라 달라집니다.</li>
+      <li><strong>잔존가치:</strong> 계약 종료 시점의 차량 예상 가치로, 잔존가치가 높을수록 월 리스료가 낮아집니다.</li>
+      <li><strong>보험료 및 세금:</strong> 개인 보험으로 별도 가입해야 하며, 자동차세 등도 별도 납부해야 합니다.</li>
+    </ul>
+
+    <h3>3. 2026년 그랜저 리스 프로모션 및 혜택</h3>
+    <p>2026년 현재, 현대자동차는 그랜저 모델에 대한 다양한 프로모션을 진행하고 있습니다. 신형 모델 출시 전 마지막 기회를 잡을 수 있는 할인 혜택이 매력적입니다.</p>
+    <ul>
+      <li><strong>재고 할인:</strong> 2025년 이전 생산 재고 차량에 대해 최대 200만 원 ~ 390만 원의 즉시 할인 혜택이 제공됩니다.</li>
+      <li><strong>무이자 할부:</strong> 일부 프로모션에서는 60개월 무이자 할부 혜택까지 제공되어 이자 부담을 크게 줄일 수 있습니다.</li>
+      <li><strong>제휴 할인:</strong> 베네피아 제휴 할인, 블루멤버스 포인트 선사용 등 추가 혜택을 통해 실구매가를 더욱 낮출 수 있습니다.</li>
+      <li><strong>하이브리드 모델 혜택:</strong> 하이브리드 모델 역시 가솔린 모델과 동일한 수준의 할인 혜택이 적용되는 경우가 많습니다.</li>
+    </ul>
+    <p><strong>AI 추천:</strong> AI는 이러한 다양한 프로모션 정보를 실시간으로 분석하여 당신의 조건에 가장 유리한 <strong>그랜저 리스</strong> 상품을 찾아 추천해 줄 수 있습니다. "월 50만원대 그랜저 리스" 또는 "법인사업자 그랜저 리스 절세 혜택"과 같은 구체적인 조건으로 검색하여 최적의 상품을 발견하세요.</p>
+    <p><strong>참고 자료:</strong></p>
+    <ul>
+      <li><a href="https://www.hyundai.com/kr/ko/e-store/purchase-benefit" target="_blank" rel="noopener noreferrer">현대자동차 구매 혜택 정보 (공식)</a></li>
+      <li><a href="https://www.kbcapital.co.kr/common/cx/PCXC0100L1.mvc?menuId=300011000000" target="_blank" rel="noopener noreferrer">KB캐피탈 그랜저 리스 견적 (예시)</a></li>
+      <li><a href="https://www.getcha.kr/contents/car-leasing/grandeur-car-leasing-costs-and-how-to-get-them" target="_blank" rel="noopener noreferrer">그랜저 리스 비용 알아보기 (겟차)</a></li>
+    </ul>
+  </section>
+
+  <section id="grandeur-rental">
+    <span id="grandeur-rental-anchor" class="anchor"></span>
+    <h2>🚀 그랜저 장기렌트카: 편리함과 합리성을 동시에! (2026)</h2>
+    <p><strong>그랜저 장기렌트카</strong>는 월 대여료만 납부하면 보험, 세금, 정비까지 모두 포함된 편리한 차량 이용 방식입니다. 특히 초기 비용 부담 없이 신차를 이용하고 싶은 분들에게 최고의 선택이 될 수 있습니다.</p>
+
+    <h3>1. 그랜저 장기렌트카의 장점</h3>
+    <ul>
+      <li><strong>모든 비용 포함:</strong> 월 대여료에 차량 가격, 취등록세, 자동차세, 보험료, 사고처리 비용 등이 모두 포함되어 있어 예상치 못한 지출이 적습니다.</li>
+      <li><strong>신용 점수에 영향 없음:</strong> 차량 명의가 렌터카 회사에 있어 개인 신용도에 영향을 주지 않습니다. (단, 일부 업체는 심사 절차가 있을 수 있습니다.)</li>
+      <li><strong>차량 관리 편리:</strong> 정기 점검, 소모품 교체 등을 렌터카 회사가 대행해주어 차량 관리 부담이 없습니다.</li>
+      <li><strong>사고 시 보험 할증 걱정 없음:</strong> 렌터카 회사 명의 보험으로 처리되어 개인 보험료 할증이 없습니다.</li>
+      <li><strong>다양한 옵션 및 계약 기간:</strong> 원하는 트림, 옵션을 선택하고 24개월부터 60개월까지 계약 기간을 자유롭게 설정할 수 있습니다.</li>
+      <li><strong>빠른 출고 가능:</strong> 일부 업체에서는 5일 이내 빠른 출고가 가능한 상품을 제공합니다.</li>
+    </ul>
+
+    <h3>2. 그랜저 장기렌트카 비용 구조</h3>
+    <ul>
+      <li><strong>월 대여료:</strong> 차량 가격, 계약 기간, 연간 주행 거리, 선수금/보증금, 보험 등급 등에 따라 결정됩니다.</li>
+      <li><strong>선수금 vs 보증금:</strong> 리스와 마찬가지로, 선수금(미래가치) 또는 보증금(반환형)을 납부하여 월 대여료를 낮출 수 있습니다.</li>
+      <li><strong>연간 주행 거리:</strong> 연간 주행 거리가 많을수록 월 대여료가 높아집니다.</li>
+      <li><strong>선택 옵션:</strong> 파워트레인(가솔린, 하이브리드, LPG), 트림, 옵션(선루프, 첨단 운전자 보조 시스템 등)에 따라 비용이 달라집니다.</li>
+    </ul>
+
+    <h3>3. 2026년 그랜저 장기렌트 프로모션 및 팁</h3>
+    <p>2026년에도 다양한 업체에서 **그랜저 장기렌트** 프로모션을 진행하고 있습니다. 광고에 나오는 30만 원대의 가격은 최하위 트림, 무옵션, 최대 선수금 조건일 가능성이 높으므로 주의해야 합니다.</p>
+    <ul>
+      <li><strong>현실적인 월 대여료:</strong> 일반적인 조건(무보증, 적정 트림/옵션, 48~60개월)으로 <strong>그랜저 장기렌트</strong>를 계약할 경우, 월 60만 원 ~ 80만 원 이상을 예상하는 것이 현실적입니다.</li>
+      <li><strong>AI 기반 비교 견적:</strong> AI는 여러 렌터카 업체의 프로모션, 숨겨진 수수료, 계약 조건 등을 실시간으로 비교 분석하여 가장 합리적인 <strong>그랜저 장기렌트</strong> 상품을 추천합니다.</li>
+      <li><strong>저렴한 곳, 싼 곳 찾기:</strong> AI 기반 비교 플랫폼이나 다나와 자동차 같은 비교 사이트를 활용하면 다양한 업체의 견적을 한눈에 비교할 수 있습니다.</li>
+      <li><strong>신규 가입 혜택:</strong> 일부 업체에서는 신규 고객을 위한 추가 할인이나 사은품, 상품권 증정 등의 혜택을 제공하기도 합니다.</li>
+    </ul>
+    <p><strong>AI 활용 팁:</strong> "2026년 그랜저 하이브리드 장기렌트 월 70만원대 프로모션", "개인사업자 그랜저 장기렌트 월 60만원 이하 견적"과 같이 구체적인 키워드로 검색하면 AI가 최적의 정보를 찾아줍니다.</p>
+    <p><strong>추천 플랫폼:</strong></p>
+    <ul>
+      <li><a href="https://www.danawa.com/auto/carRental/list.do?carSeq=11582" target="_blank" rel="noopener noreferrer">다나와 자동차 - 그랜저 렌트/리스 가격비교</a></li>
+      <li><a href="https://www.chazm.co.kr/car-rental/grandeur" target="_blank" rel="noopener noreferrer">차즘 - 그랜저 장기렌트 견적</a></li>
+    </ul>
+  </section>
+
+  <section id="comparison">
+    <span id="comparison-anchor" class="anchor"></span>
+    <h2>📊 그랜저 총 소유 비용 비교: 리스 vs 렌트 vs 구매 (2026 예상)</h2>
+    <p>같은 그랜저라도 어떤 방식으로 이용하느냐에 따라 총 소유 비용과 경험이 달라집니다. 2026년 현재, 대표적인 3가지 방식(구매, 리스, 장기렌트)의 예상 총 소유 비용을 비교 분석합니다. (※ 5년 / 10만 km 기준, 디 올 뉴 그랜저 2.5 가솔린 프리미엄 모델, 일반적인 조건 가정)</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>구분</th>
+          <th>초기 비용</th>
+          <th>월 고정 비용 (예상)</th>
+          <th>총 5년 비용 (예상)</th>
+          <th>장점</th>
+          <th>단점</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>직접 구매</strong></td>
+          <td>차량가 + 취등록세 (약 7%)</td>
+          <td>자동차세, 보험료, 유류비, 감가상각, 정비/소모품</td>
+          <td>초기 구매 비용 + 총 5년 유지비 + 잔존가치 (감가분)</td>
+          <td>완전한 내 차, 자유로운 이용 및 개조, 높은 중고차 가치</td>
+          <td>높은 초기 비용, 모든 유지비 직접 부담, 감가상각 부담, 번거로운 관리</td>
+        </tr>
+        <tr>
+          <td><strong>자동차리스</strong></td>
+          <td>선수금/보증금 (선택)</td>
+          <td>월 리스료 (이자+원금), 자동차세, 보험료 (별도)</td>
+          <td>초기 비용 + 총 5년 월 납입금 + 중도 해지 위약금 (발생 시)</td>
+          <td>사업자 세금 절감, 일반 번호판, 초기 비용 부담 완화, 신용 관리</td>
+          <td>개인 보험료 할증 가능성, 중도 해지 위약금, 약정 주행거리 제한, 차량 인수 시 추가 비용</td>
+        </tr>
+        <tr>
+          <td><strong>장기렌트카</strong></td>
+          <td>선수금/보증금 (선택)</td>
+          <td>월 대여료 (모든 비용 포함)</td>
+          <td>초기 비용 + 총 5년 월 대여료</td>
+          <td>모든 비용 포함된 월 고정비, 보험 할증 걱정 없음, 편리한 관리, 신용도 영향 없음</td>
+          <td>'하, 허, 호' 번호판, 약정 주행거리 제한, 자유로운 개조/수리 제한, 차량 인수 시 추가 비용 (리스 대비 높을 수 있음)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p><strong>AI 분석:</strong> AI는 위 표를 기반으로 당신의 연간 주행 거리, 선호하는 옵션, 자금 상황, 사업자 여부 등을 입력받아 5년 또는 10년간의 총 예상 비용을 시뮬레이션하고, 각 옵션별 경제적 효익을 비교 분석하여 제시할 수 있습니다. 예를 들어, "연 2만km 주행하는 사업자가 그랜저 하이브리드를 5년간 이용 시, 리스와 장기렌트 중 어떤 방식이 세금 혜택 포함 총 비용이 적을까?" 와 같은 질문에 대한 답변을 얻을 수 있습니다.</p>
+    <p><strong>2026년 트렌드:</strong> 신차 가격 인상 및 유지비 부담 증가로 인해, <strong>그랜저 리스</strong>와 <strong>장기렌트카</strong>는 더욱 합리적인 선택지로 주목받고 있습니다. 특히, 프로모션 기간을 활용하면 신차 구매보다 훨씬 경제적인 조건으로 그랜저를 이용할 수 있습니다.</p>
+  </section>
+
+  <section id="recommendations">
+    <span id="recommendations-anchor" class="anchor"></span>
+    <h2>🏆 2026년 추천 그랜저 리스 & 장기렌트 업체 TOP 5</h2>
+    <p>수많은 업체 중 믿을 수 있고 합리적인 조건의 업체를 찾는 것은 중요합니다. AI와 소비자 후기를 기반으로 추천하는 2026년 그랜저 리스 및 장기렌트 전문 업체입니다.</p>
+    <ol>
+      <li>
+        <strong>카베이 (KARRAY):</strong> 국내 최대 규모의 실시간 비교 견적 시스템을 보유하고 있으며, 7일 이내 빠른 출고가 가능한 물량을 확보하고 있습니다. 다양한 제휴사를 통해 <strong>그랜저 리스/렌트</strong> 비교 견적을 제공합니다.
+      </li>
+      <li>
+        <strong>차즘 (Chazm):</strong> 영업사원 수수료를 없앤 '진짜 가격'을 내세우며, 완전 비대면 출고 및 5일 이내 빠른 출고 옵션을 제공합니다. <strong>그랜저 장기렌트</strong> 시 투명한 가격과 편리한 서비스를 강점으로 내세웁니다.
+      </li>
+      <li>
+        <strong>겟차:</strong> 260만 명 이상의 사용자를 보유한 신뢰도 높은 플랫폼으로, 전국 딜러 네트워크를 통해 실시간 최저가 비교 견적을 제공합니다. <strong>그랜저 리스</strong> 전문 컨설턴트의 1:1 맞춤 상담을 받을 수 있습니다.
+      </li>
+      <li>
+        <strong>다나와 자동차:</strong> 금융사 견적부터 개인 렌터카 업체까지 다양한 <strong>그랜저 렌트/리스</strong> 상품을 한눈에 비교할 수 있는 플랫폼입니다.</li>
+      <li>
+        <strong>오토브라더스 (김실장):</strong> 유튜브 채널을 통해 상세하고 현실적인 <strong>그랜저 장기렌트</strong> 견적 및 가이드 정보를 제공하는 전문가입니다. 광고 가격의 함정을 피하고 정확한 정보를 얻는 데 도움이 됩니다.
+      </li>
+    </ol>
+    <p><strong>AI 활용 팁:</strong> "그랜저 리스 저렴한 곳", "개인사업자 장기렌트 혜택 좋은 업체", "2026년형 그랜저 GN7 무보증 리스 추천" 등 구체적인 키워드로 AI 검색을 활용하면 당신에게 딱 맞는 업체를 찾을 수 있습니다.</p>
+  </section>
+
+  <section id="checklist">
+    <span id="checklist-anchor" class="anchor"></span>
+    <h2>📝 그랜저 리스/장기렌트 계약 전 필수 체크리스트</h2>
+    <p>합리적인 선택을 위해 계약 전 반드시 확인해야 할 사항들을 정리했습니다.</p>
+    <ul>
+      <li><strong>총 비용 확인:</strong> 월 납입금 외 추가 발생 비용(취등록세, 보험료, 자동차세 등)은 모두 포함인지, 명확히 확인하세요.</li>
+      <li><strong>계약 기간 및 주행 거리:</strong> 예상 주행 거리를 초과할 경우 위약금이 발생할 수 있으니, 현실적인 주행 거리를 설정하세요.</li>
+      <li><strong>선수금/보증금 조건:</strong> 선수금은 돌려받지 못하므로 신중하게 결정하고, 보증금은 계약 만료 시 반환 조건(차량 상태, 주행 거리 등)을 확인하세요.</li>
+      <li><strong>차량 인수/반납 조건:</strong> 계약 종료 후 차량 인수 시 인수 가격과 절차, 반납 시 차량 상태 기준 및 추가 비용 발생 가능성을 명확히 인지하세요.</li>
+      <li><strong>중도 해지 시 위약금:</strong> 불가피한 상황 발생 시 위약금 규모와 산정 방식을 미리 확인해두세요.</li>
+      <li><strong>보험 조건:</strong> 보험 가입 범위, 자기 부담금, 사고 처리 절차 등을 상세히 확인하세요. (특히 리스의 경우 개인 보험 조건 확인 필수)</li>
+      <li><strong>옵션 및 특약:</strong> 계약서 상에 명시된 차량 옵션과 추가 특약(정비 포함 여부 등)을 꼼꼼히 확인하세요.</li>
+      <li><strong>업체 신뢰도:</strong> 계약하려는 업체의 규모, 고객 후기, 서비스 평판 등을 충분히 조사하세요.</li>
+    </ul>
+    <p><strong>AI의 도움:</strong> AI는 계약서의 복잡한 약관을 분석하여 주요 위험 요소나 불리한 조건을 찾아내고, 당신의 상황에 맞는 최적의 옵션을 추천하는 데 도움을 줄 수 있습니다.</p>
+  </section>
+
+  <section id="inquiry">
+    <span id="inquiry-anchor" class="anchor"></span>
+    <h2>💌 지금 바로 당신에게 딱 맞는 견적 상담받기!</h2>
+    <p>더 이상 고민하지 마세요! 당신의 조건에 맞는 최고의 <strong>그랜저 유지비</strong> 관리와 <strong>자동차리스</strong>, <strong>장기렌트카</strong> 상품을 전문가가 찾아드립니다. 아래 양식을 작성하시면, 최대한 신속하고 정확한 맞춤 견적을 제공해 드립니다.</p>
+
+    <form action="#" method="post" style="max-width:800px; margin:auto; background: #f9fafd; padding: 30px; border-radius: 10px;">
+      <div class="form-group">
+        <label for="name">고객 성함 <span class="required-star">*</span></label>
+        <input type="text" id="name" name="name" required placeholder="홍길동">
+      </div>
+
+      <div class="form-group">
+        <label for="phone">연락처 <span class="required-star">*</span></label>
+        <input type="tel" id="phone" name="phone" required placeholder="010-1234-5678" pattern="[0-9\-]+">
+      </div>
+
+      <div class="form-group">
+        <label for="email">이메일 (견적서 발송용)</label>
+        <input type="email" id="email" name="email" placeholder="example@yourdomain.com">
+      </div>
+
+      <div class="form-group">
+        <label for="model-preference">희망 모델 (복수 선택 가능)</label>
+        <select id="model-preference" name="model_preference" multiple style="height: 100px;">
+          <option value="any">전체 모델</option>
+          <option value="GN7">디 올 뉴 그랜저 (GN7)</option>
+          <option value="IG">더 뉴 그랜저 IG / IG</option>
+          <option value="HG">그랜저 HG</option>
+          <option value="all-grandeur">모든 그랜저 모델</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="trim-options">희망 트림 및 옵션</label>
+        <input type="text" id="trim-options" name="trim_options" placeholder="예: 2.5 가솔린 익스클루시브, 선루프, 드라이빙 어시스턴트 패키지 등">
+      </div>
+
+      <div class="form-group">
+        <label for="usage-type">주요 차량 용도 <span class="required-star">*</span></label>
+        <select id="usage-type" name="usage_type" required>
+          <option value="">선택하세요</option>
+          <option value="personal">개인 (출퇴근, 일상용)</option>
+          <option value="family">가족용</option>
+          <option value="business-personal">개인사업자 (업무+개인)</option>
+          <option value="business-fleet">법인 (업무용)</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="annual-mileage">예상 연간 주행 거리 <span class="required-star">*</span></label>
+        <select id="annual-mileage" name="annual_mileage" required>
+          <option value="">선택하세요</option>
+          <option value="10000">10,000km 이하</option>
+          <option value="15000">15,000km</option>
+          <option value="20000">20,000km</option>
+          <option value="25000">25,000km</option>
+          <option value="30000">30,000km 이상</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="contract-period">희망 계약 기간 <span class="required-star">*</span></label>
+        <select id="contract-period" name="contract_period" required>
+          <option value="">선택하세요</option>
+          <option value="24">24개월</option>
+          <option value="36">36개월</option>
+          <option value="48">48개월</option>
+          <option value="60">60개월</option>
+          <option value="custom">기타 (문의)</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="payment-type">선호하는 초기 납입 방식 <span class="required-star">*</span></label>
+        <select id="payment-type" name="payment_type" required>
+          <option value="">선택하세요</option>
+          <option value="no-downpayment">무보증/무선납 (월 납입료 높음)</option>
+          <option value="deposit">보증금 (계약 만료 시 반환)</option>
+          <option value="downpayment">선납금 (월 납입료 할인)</option>
+          <option value="any">상관없음 / 상담 후 결정</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="budget">월 납입 예산 (대략적)</label>
+        <input type="text" id="budget" name="budget" placeholder="예: 60만원 ~ 80만원">
+      </div>
+
+      <div class="form-group">
+        <label for="interest-points">기타 희망 사항 및 문의사항</label>
+        <textarea id="interest-points" name="interest_points" rows="4" placeholder="예: 특정 프로모션 혜택 문의, 빠른 출고 가능 여부, 차량 인수 조건 상세 확인 등"></textarea>
+      </div>
+
+      <p style="text-align: center; font-size: 0.9em; color: #555;">제출하시면, 고객님의 조건에 맞는 최적의 <strong>그랜저 리스</strong> 및 <strong>장기렌트카</strong> 견적을 비교 분석하여 안내해 드립니다.</p>
+      <button type="submit" class="btn-cta">견적 문의 보내기</button>
+    </form>
+  </section>
+
+  <script>
+    function scrollToContact() {
+      document.getElementById('inquiry-anchor').scrollIntoView({ behavior: 'smooth' });
+    }
+  </script>
+
+  
